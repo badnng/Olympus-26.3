@@ -13,7 +13,9 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "olympus:climbing_rose"
+        "recipes": [
+          "olympus:climbing_rose"
+        ]
       },
       "trigger": "minecraft:recipe_unlocked"
     }

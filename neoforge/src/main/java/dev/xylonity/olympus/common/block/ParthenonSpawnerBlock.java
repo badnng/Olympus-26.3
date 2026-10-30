@@ -1,6 +1,5 @@
 package dev.xylonity.olympus.common.block;
 
-import com.mojang.serialization.MapCodec;
 import dev.xylonity.olympus.common.block.entity.ParthenonSpawnerBlockEntity;
 import dev.xylonity.olympus.registry.OlympusBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -24,19 +23,12 @@ import org.jspecify.annotations.Nullable;
 
 public final class ParthenonSpawnerBlock extends BaseEntityBlock {
 
-    public static final MapCodec<ParthenonSpawnerBlock> CODEC = simpleCodec(ParthenonSpawnerBlock::new);
-
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
     public static final BooleanProperty REWARD = BooleanProperty.create("reward");
 
     public ParthenonSpawnerBlock(final BlockBehaviour.Properties properties) {
         super(properties);
         registerDefaultState(stateDefinition.any().setValue(ACTIVE, false).setValue(REWARD, false));
-    }
-
-    @Override
-    protected @NonNull MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
     }
 
     @Override

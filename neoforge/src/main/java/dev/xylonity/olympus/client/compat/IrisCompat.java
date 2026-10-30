@@ -1,6 +1,6 @@
 package dev.xylonity.olympus.client.compat;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import dev.xylonity.olympus.Olympus;
 import dev.xylonity.olympus.registry.OlympusRenderTypes;
 import java.lang.reflect.Method;

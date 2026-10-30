@@ -21,7 +21,9 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.InterpolationHandler;
+import net.minecraft.world.entity.LinearInterpolationHandler;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.MoveSimulationType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -47,8 +49,6 @@ public final class AbsorbedSoulEntity extends Entity {
     private static final int HOMING_DELAY = 20;
     private static final double RADIUS = 20;
 
-    private final InterpolationHandler interpolation = new InterpolationHandler(this);
-
     private @Nullable UUID targetPlayerUuid;
     private int age;
 
@@ -72,7 +72,6 @@ public final class AbsorbedSoulEntity extends Entity {
 
     @Override
     public void tick() {
-        interpolation.interpolate();
         if (firstTick && level().isClientSide()) {
             firstTick = false;
             return;
@@ -206,8 +205,13 @@ public final class AbsorbedSoulEntity extends Entity {
     }
 
     @Override
-    public InterpolationHandler getInterpolation() {
-        return interpolation;
+    protected InterpolationHandler createInterpolationHandler() {
+        return LinearInterpolationHandler.create(this);
+    }
+
+    @Override
+    public MoveSimulationType getMoveSimulationType() {
+        return MoveSimulationType.SERVER_AND_CLIENT;
     }
 
 }

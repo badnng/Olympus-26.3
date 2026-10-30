@@ -1,6 +1,5 @@
 package dev.xylonity.olympus.common.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -19,19 +18,12 @@ import org.jspecify.annotations.NonNull;
 
 public final class PentelicMarbleColumnBlock extends RotatedPillarBlock {
 
-    public static final MapCodec<PentelicMarbleColumnBlock> CODEC = simpleCodec(PentelicMarbleColumnBlock::new);
-
     public static final EnumProperty<ColumnPart> PART = EnumProperty.create("part", ColumnPart.class);
     public static final BooleanProperty REVERSED = BooleanProperty.create("reversed");
 
     public PentelicMarbleColumnBlock(final BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState().setValue(PART, ColumnPart.SINGLE).setValue(REVERSED, false));
-    }
-
-    @Override
-    public @NonNull MapCodec<PentelicMarbleColumnBlock> codec() {
-        return CODEC;
     }
 
     @Override

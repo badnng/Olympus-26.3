@@ -1,6 +1,5 @@
 package dev.xylonity.olympus.common.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
@@ -18,15 +17,8 @@ import org.jspecify.annotations.NonNull;
 
 public final class AirCloudBlock extends HalfTransparentBlock {
 
-    public static final MapCodec<AirCloudBlock> CODEC = simpleCodec(AirCloudBlock::new);
-
     public AirCloudBlock(final BlockBehaviour.Properties properties) {
         super(properties);
-    }
-
-    @Override
-    protected @NonNull MapCodec<? extends AirCloudBlock> codec() {
-        return CODEC;
     }
 
     @Override

@@ -5,14 +5,16 @@
     {
       "type": "olympus:harpy",
       "weight": 15,
-      "minCount": 1,
-      "maxCount": 2
+      "count": {
+        "type": "minecraft:uniform",
+        "min_inclusive": 1,
+        "max_inclusive": 2
+      }
     },
     {
       "type": "olympus:elite_harpy",
       "weight": 2,
-      "minCount": 1,
-      "maxCount": 1
+      "count": 1
     }
   ]
 }

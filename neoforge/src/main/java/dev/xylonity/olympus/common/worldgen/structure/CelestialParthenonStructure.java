@@ -63,7 +63,7 @@ public final class CelestialParthenonStructure extends Structure {
         final int x = chunkPos.getMiddleBlockX();
         final int z = chunkPos.getMiddleBlockZ();
 
-        final Holder<Biome> surfaceBiome = context.biomeSource().getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(context.chunkGenerator().getSeaLevel()), QuartPos.fromBlock(z), context.randomState().sampler());
+        final Holder<Biome> surfaceBiome = context.biomeSource().createUncachedResolver(context.randomState()).getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(context.chunkGenerator().getSeaLevel()), QuartPos.fromBlock(z));
         return context.validBiome().test(surfaceBiome) ? this.findGenerationPoint(context) : Optional.empty();
     }
 

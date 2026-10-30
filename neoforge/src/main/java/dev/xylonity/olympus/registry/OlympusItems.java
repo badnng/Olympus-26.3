@@ -89,7 +89,7 @@ public class OlympusItems {
             ))
             .component(DataComponents.ATTACK_RANGE, new AttackRange(2, 4.5F, 2.0F, 6.5F, 0.125F, 0.5F))
             .component(DataComponents.MINIMUM_ATTACK_CHARGE, 1f)
-            .component(DataComponents.SWING_ANIMATION, new SwingAnimation(SwingAnimationType.STAB, 10))
+            .component(DataComponents.ATTACK_ANIMATION, new SwingAnimation(SwingAnimationType.STAB, 10))
             .component(DataComponents.USE_EFFECTS, new UseEffects(true, false, 1))
             .component(DataComponents.WEAPON, new Weapon(1)));
 

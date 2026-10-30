@@ -13,7 +13,9 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "olympus:cracked_pentelic_marble_brick"
+        "recipes": [
+          "olympus:cracked_pentelic_marble_brick"
+        ]
       },
       "trigger": "minecraft:recipe_unlocked"
     }

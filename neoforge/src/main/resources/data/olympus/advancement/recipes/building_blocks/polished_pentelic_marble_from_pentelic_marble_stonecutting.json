@@ -13,7 +13,9 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "olympus:polished_pentelic_marble_from_pentelic_marble_stonecutting"
+        "recipes": [
+          "olympus:polished_pentelic_marble_from_pentelic_marble_stonecutting"
+        ]
       },
       "trigger": "minecraft:recipe_unlocked"
     }

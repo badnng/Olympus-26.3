@@ -28,14 +28,14 @@ public final class PoseidonTridentEntityRenderer extends EntityRenderer<Poseidon
     public void submit(final RenderState state, final PoseStack poseStack, final SubmitNodeCollector submitNodeCollector, final CameraRenderState camera) {
         poseStack.pushPose();
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(state.yRot + 90F));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(90F - state.xRot));
+        poseStack.rotate(Axis.YP.rotationDegrees(state.yRot + 90F));
+        poseStack.rotate(Axis.ZP.rotationDegrees(90F - state.xRot));
 
         if (state.shake > 0) {
-            poseStack.mulPose(Axis.ZP.rotationDegrees(-Mth.sin(state.shake * 3.0F) * state.shake));
+            poseStack.rotate(Axis.ZP.rotationDegrees(-Mth.sin(state.shake * 3.0F) * state.shake));
         }
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+        poseStack.rotate(Axis.YP.rotationDegrees(90F));
 
         // The pivot is located basically in the middle of the model, so this is done to close the gap between the bbox and the tip of the model
         poseStack.translate(0, -26/16f, 0);

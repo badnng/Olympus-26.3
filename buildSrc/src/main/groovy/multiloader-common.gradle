@@ -54,6 +54,9 @@ jar {
     from(rootProject.file('LICENSE')) {
         rename { "${it}_${mod_name}" }
     }
+    from(rootProject.file('ASSETS_LICENSE')) {
+        rename { "${it}_${mod_name}" }
+    }
 
     manifest {
         attributes([
@@ -84,6 +87,7 @@ processResources {
             'neoforge_version'             : neoforge_version,
             'neoforge_loader_version_range': neoforge_loader_version_range,
             'geckolib_version'              : geckolib_version,
+            'curios_version'                : curios_version,
             'credits'                      : credits,
             'java_version'                 : java_version
     ]

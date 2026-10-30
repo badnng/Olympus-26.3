@@ -18,6 +18,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -146,7 +147,7 @@ public final class PoseidonTridentEntity extends ThrownTrident {
                 createSplash(serverLevel, target.getBoundingBox().getCenter(), target);
             }
 
-            if (!target.is(EntityType.ENDERMAN)) {
+            if (!target.is(EntityTypes.ENDERMAN)) {
                 summonChannelingLightning(serverLevel, target.position(), target.blockPosition(), target);
             }
 
@@ -154,7 +155,7 @@ public final class PoseidonTridentEntity extends ThrownTrident {
         }
 
         if (targetWasHurt) {
-            if (target.is(EntityType.ENDERMAN)) {
+            if (target.is(EntityTypes.ENDERMAN)) {
                 return;
             }
 
@@ -172,7 +173,7 @@ public final class PoseidonTridentEntity extends ThrownTrident {
             }
         }
 
-        deflect(ProjectileDeflection.REVERSE, target, owner, false);
+        deflect(ProjectileDeflection.REVERSE, target, owner, false, 1.0D);
         setDeltaMovement(getDeltaMovement().multiply(0.02D, 0.2D, 0.02D));
 
         playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F);
@@ -308,7 +309,7 @@ public final class PoseidonTridentEntity extends ThrownTrident {
             return;
         }
 
-        final LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, level);
+        final LightningBolt lightning = new LightningBolt(EntityTypes.LIGHTNING_BOLT, level);
         if (getOwner() instanceof ServerPlayer serverPlayer) {
             lightning.setCause(serverPlayer);
         }

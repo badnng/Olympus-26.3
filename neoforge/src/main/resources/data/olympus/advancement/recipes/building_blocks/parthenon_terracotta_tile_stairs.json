@@ -13,7 +13,9 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "olympus:parthenon_terracotta_tile_stairs"
+        "recipes": [
+          "olympus:parthenon_terracotta_tile_stairs"
+        ]
       },
       "trigger": "minecraft:recipe_unlocked"
     }

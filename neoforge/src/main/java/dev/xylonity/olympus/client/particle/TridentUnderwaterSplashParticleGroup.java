@@ -18,7 +18,7 @@ import org.jspecify.annotations.NonNull;
 
 public final class TridentUnderwaterSplashParticleGroup extends ParticleGroup<TridentUnderwaterSplashParticle> {
 
-    public static final ParticleRenderType TYPE = new ParticleRenderType("OLYMPUS_TRIDENT_UNDERWATER_SPLASHES");
+    public static final ParticleRenderType TYPE = new ParticleRenderType("OLYMPUS_TRIDENT_UNDERWATER_SPLASHES", "OLYMPUS_TRIDENT_UNDERWATER_SPLASHES");
 
     private static final int LATITUDE_SEGMENTS = 12;
     private static final int LONGITUDE_SEGMENTS = 24;

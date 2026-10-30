@@ -159,7 +159,7 @@ public final class SpearOfAresEntity extends ThrownTrident {
 
     @Override
     protected @NonNull Collection<EntityHitResult> findHitEntities(final @NonNull Vec3 from, final @NonNull Vec3 to) {
-        return ProjectileUtil.getManyEntityHitResult(level(), this, from, to, getBoundingBox().expandTowards(getDeltaMovement()).inflate(1.0D), this::canHitEntity, false);
+        return ProjectileUtil.getManyEntityHitResult(level(), this, from, to, getBoundingBox().expandTowards(getDeltaMovement()).inflate(1.0D), this::canHitEntity, false, false);
     }
 
     @Override
@@ -270,7 +270,7 @@ public final class SpearOfAresEntity extends ThrownTrident {
             target.setDeltaMovement(Vec3.ZERO);
             target.move(MoverType.SELF, movement);
             target.setDeltaMovement(Vec3.ZERO);
-            target.hurtMarked = true;
+            target.syncVelocity = true;
 
             // Whether if the entity hit a wall
             final Vec3 actualMovement = target.position().subtract(previousPosition);
@@ -293,10 +293,10 @@ public final class SpearOfAresEntity extends ThrownTrident {
             final Entity target = level.getEntity(iterator.nextInt());
             if (target instanceof LivingEntity entity && target.isAlive()) {
                 // Prevents invulnerability window from taking effect, so the damage on collision is applied properly
-                final int previousInvulnerableTime = entity.invulnerableTime;
-                entity.invulnerableTime = 0;
+                final int previousDamageCooldownTime = entity.damageCooldownTime;
+                entity.damageCooldownTime = 0;
                 if (!entity.hurtServer(level, damageSource, OlympusConfig.INSTANCE.aresSpearWallImpactDamage.get().floatValue())) {
-                    entity.invulnerableTime = previousInvulnerableTime;
+                    entity.damageCooldownTime = previousDamageCooldownTime;
                 }
 
                 final int slownessTicks = OlympusConfig.secondsToTicks(OlympusConfig.INSTANCE.aresSpearWallSlownessSeconds.get());

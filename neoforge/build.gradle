@@ -3,8 +3,29 @@ plugins {
     id 'net.neoforged.moddev'
 }
 
+sourceSets {
+    gameTest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+configurations {
+    gameTestImplementation.extendsFrom implementation
+    gameTestRuntimeOnly.extendsFrom runtimeOnly
+}
+
 neoForge {
     version = neoforge_version
+    addModdingDependenciesTo(sourceSets.gameTest)
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+        }
+        olympus_tests {
+            sourceSet sourceSets.gameTest
+        }
+    }
     // Automatically enable neoforge AccessTransformers if the file exists
     def at = project(':common').file('src/main/resources/META-INF/accesstransformer.cfg')
     if (at.exists()) {
@@ -12,6 +33,8 @@ neoForge {
     }
     runs {
         configureEach {
+            loadedMods = [neoForge.mods[mod_id]]
+            systemProperty 'olympus.testNeoForgeVersion', neoforge_version
             systemProperty('neoforge.enabledGameTestNamespaces', mod_id)
             ideName = "NeoForge ${it.name.capitalize()} (${project.path})" // Unify the run config names with fabric
         }
@@ -31,23 +54,96 @@ neoForge {
         }
         server {
             server()
+            programArgument '--nogui'
             this.file("runs/server").createParentDirectories()
             gameDirectory = this.mkdir(this.file("runs/server"))
         }
-    }
-    mods {
-        "${mod_id}" {
-            sourceSet sourceSets.main
+        serverSmoke {
+            server()
+            programArgument '--nogui'
+            gameDirectory = file('runs/server-smoke')
+        }
+        gameTestServer {
+            type = 'gameTestServer'
+            sourceSet = sourceSets.gameTest
+            loadedMods = [neoForge.mods[mod_id], neoForge.mods.olympus_tests]
+            systemProperty 'neoforge.enabledGameTestNamespaces', 'olympus_tests'
+            gameDirectory = file('runs/gametest')
+            programArguments.addAll '--tests', 'olympus_tests:*', '--report', file('build/reports/gametest/results.xml').absolutePath
+        }
+        clientTest {
+            client()
+            sourceSet = sourceSets.gameTest
+            loadedMods = [neoForge.mods[mod_id], neoForge.mods.olympus_tests]
+            gameDirectory = file('runs/client-test')
+            systemProperty 'olympus.clientTest', 'true'
+            systemProperty 'olympus.clientTestReport', file('build/reports/gametest/client-results.json').absolutePath
+            programArguments.addAll '--username', 'Steve', '--quickPlaySingleplayer', 'OlympusRegression', '--width', '640', '--height', '360'
         }
     }
 }
 
 dependencies {
-    implementation 'top.theillusivec4.curios:curios-neoforge:15.0.0+26.1.2'
+    implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
     implementation "com.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+tasks.named('runGameTestServer').configure {
+    doFirst {
+        file('build/reports/gametest').mkdirs()
+    }
+}
+
+def prepareClientTestWorld = tasks.register('prepareClientTestWorld', Copy) {
+    dependsOn tasks.named('runGameTestServer')
+    from 'runs/gametest/gametestserver/gametestworld'
+    into 'runs/client-test/saves/OlympusRegression'
+    exclude '**/session.lock'
+    doLast {
+        def config = file('runs/client-test/config/fml.toml')
+        config.parentFile.mkdirs()
+        config.text = 'earlyWindowControl = false\n'
+        file('runs/client-test/options.txt').text = 'pauseOnLostFocus:false\nrenderDistance:4\nsimulationDistance:5\nmaxFps:30\n'
+    }
+}
+
+tasks.named('runClientTest').configure {
+    dependsOn prepareClientTestWorld
+    doFirst {
+        delete file('build/reports/gametest/client-results.json')
+    }
+}
+
+tasks.named('check').configure {
+    dependsOn tasks.named('runGameTestServer')
+}
+
+tasks.named('runServerSmoke').configure {
+    standardInput = System.in
+    doFirst {
+        def directory = file('runs/server-smoke')
+        directory.mkdirs()
+        new File(directory, 'eula.txt').text = 'eula=true\n'
+        new File(directory, 'server.properties').text = '''server-ip=127.0.0.1
+server-port=0
+online-mode=false
+level-name=world
+level-type=minecraft:flat
+generator-settings={"layers":[{"block":"minecraft:bedrock","height":1},{"block":"minecraft:dirt","height":2},{"block":"minecraft:grass_block","height":1}],"biome":"minecraft:plains"}
+view-distance=3
+simulation-distance=5
+spawn-protection=0
+'''
+    }
+}
+
+tasks.register('verifyMigration') {
+    group = 'verification'
+    description = 'Builds Olympus and verifies server behavior and a hidden real client in disposable worlds.'
+    dependsOn tasks.named('build'), tasks.named('runClientTest')
+}
 
 // Implement mcgradleconventions loader attribute
 def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)

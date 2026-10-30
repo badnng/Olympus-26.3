@@ -243,7 +243,7 @@ public final class SpearOfAresItem extends TridentItem implements GeoItem {
         // Moves the player downwards
         final Vec3 movement = player.getDeltaMovement();
         player.setDeltaMovement(movement.x, Math.min(movement.y, -2), movement.z);
-        player.hurtMarked = true;
+        player.syncVelocity = true;
 
         final double angle = Math.PI * 2 * (player.tickCount % 10) / 10;
         final double x = player.getX() + Math.cos(angle);

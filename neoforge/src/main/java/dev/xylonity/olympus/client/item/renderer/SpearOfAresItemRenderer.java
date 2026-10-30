@@ -70,16 +70,16 @@ public final class SpearOfAresItemRenderer extends GeoItemRenderer<SpearOfAresIt
         if (player != null) {
             if (player.isUsingItem() && GeoItem.getId(player.getUseItem()) == stackId) {
                 if (context == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND || context == ItemDisplayContext.THIRD_PERSON_LEFT_HAND) {
-                    renderPassInfo.poseStack().mulPose(Axis.XP.rotationDegrees(180));
+                    renderPassInfo.poseStack().rotate(Axis.XP.rotationDegrees(180));
                     renderPassInfo.poseStack().translate(0, -0.75, -1);
                 }
                 else if (context == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND) {
                     renderPassInfo.poseStack().translate(0.5, -0.9, 0.15);
-                    renderPassInfo.poseStack().mulPose(Axis.XP.rotationDegrees(-25));
+                    renderPassInfo.poseStack().rotate(Axis.XP.rotationDegrees(-25));
                 }
                 else if (context == ItemDisplayContext.FIRST_PERSON_LEFT_HAND) {
                     renderPassInfo.poseStack().translate(-0.5, -0.9, 0.15);
-                    renderPassInfo.poseStack().mulPose(Axis.XP.rotationDegrees(-25));
+                    renderPassInfo.poseStack().rotate(Axis.XP.rotationDegrees(-25));
                 }
 
             }

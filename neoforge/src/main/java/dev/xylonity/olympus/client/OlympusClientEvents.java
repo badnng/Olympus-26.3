@@ -129,6 +129,7 @@ public final class OlympusClientEvents {
         event.registerPipeline(OlympusRenderTypes.INVERTED_CUBES_GLOW_PIPELINE);
         event.registerPipeline(OlympusRenderTypes.FIRST_PERSON_INVERTED_CUBES_GLOW_PIPELINE);
         event.registerPipeline(OlympusRenderTypes.UNDERWATER_SPLASH_PIPELINE);
+        event.registerPipeline(OlympusRenderTypes.TRANSLUCENT_CURIO_GLINT_PIPELINE);
 
         IrisCompat.registerRenderPipelines();
     }
@@ -276,7 +277,7 @@ public final class OlympusClientEvents {
         }
 
         // The player jumps
-        if (minecraft.screen == null && jumpKeyDown && !hermesJumpKeyDown && hermesExtraJumps > 0 && HermesSandalsItem.canExtraJump(minecraft.player)) {
+        if (minecraft.gui.screen() == null && jumpKeyDown && !hermesJumpKeyDown && hermesExtraJumps > 0 && HermesSandalsItem.canExtraJump(minecraft.player)) {
             hermesExtraJumps--;
             minecraft.player.jumpFromGround();
             ClientPacketDistributor.sendToServer(HermesJumpPayload.INSTANCE);
@@ -303,17 +304,17 @@ public final class OlympusClientEvents {
         final Minecraft minecraft = Minecraft.getInstance();
         final boolean stunned = minecraft.getCameraEntity() instanceof LivingEntity livingEntity
                 && livingEntity.hasEffect(OlympusMobEffects.LIGHTNING_STUN);
-        final Identifier currentEffect = minecraft.gameRenderer.currentPostEffect();
+        final Identifier currentEffect = minecraft.gameRenderer.spectatedEntityPostEffect();
 
         // Handles the screen post shader when the lightning stun effect is active
         if (stunned) {
             if (!LIGHTNING_STUN_POST_EFFECT.equals(currentEffect)) {
-                minecraft.gameRenderer.setPostEffect(LIGHTNING_STUN_POST_EFFECT);
+                minecraft.gameRenderer.setSpectatedEntityPostEffect(LIGHTNING_STUN_POST_EFFECT);
             }
 
         }
         else if (LIGHTNING_STUN_POST_EFFECT.equals(currentEffect)) {
-            minecraft.gameRenderer.clearPostEffect();
+            minecraft.gameRenderer.clearSpectatedEntityPostEffect();
         }
 
     }

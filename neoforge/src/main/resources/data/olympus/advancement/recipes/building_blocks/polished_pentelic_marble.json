@@ -13,7 +13,9 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "olympus:polished_pentelic_marble"
+        "recipes": [
+          "olympus:polished_pentelic_marble"
+        ]
       },
       "trigger": "minecraft:recipe_unlocked"
     }

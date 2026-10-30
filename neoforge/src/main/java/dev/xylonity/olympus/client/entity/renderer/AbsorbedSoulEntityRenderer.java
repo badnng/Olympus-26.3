@@ -47,7 +47,7 @@ public final class AbsorbedSoulEntityRenderer extends EntityRenderer<AbsorbedSou
     public void submit(final EntityRenderState state, final PoseStack poseStack, final SubmitNodeCollector submitNodeCollector, final CameraRenderState camera) {
         poseStack.pushPose();
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(state.ageInTicks * 3.0F));
+        poseStack.rotate(Axis.YP.rotationDegrees(state.ageInTicks * 3.0F));
         poseStack.translate(0.0F, -1.35F, 0.0F);
 
         submitNodeCollector.submitModelPart(model.soul(), poseStack, RENDER_TYPE_BASE, state.lightCoords, OverlayTexture.NO_OVERLAY, null);

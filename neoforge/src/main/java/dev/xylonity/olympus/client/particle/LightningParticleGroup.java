@@ -23,7 +23,7 @@ import org.jspecify.annotations.NonNull;
 /// https://github.com/Xylonity/Hostiles/blob/v1.20.1/common/src/main/java/dev/xylonity/hostiles/client/particle/GroundToTargetLightningParticle.java
 public final class LightningParticleGroup extends ParticleGroup<LightningBoltParticle> {
 
-    public static final ParticleRenderType TYPE = new ParticleRenderType("OLYMPUS_LIGHTNING_BOLTS");
+    public static final ParticleRenderType TYPE = new ParticleRenderType("OLYMPUS_LIGHTNING_BOLTS", "OLYMPUS_LIGHTNING_BOLTS");
 
     public LightningParticleGroup(final ParticleEngine engine) {
         super(engine);

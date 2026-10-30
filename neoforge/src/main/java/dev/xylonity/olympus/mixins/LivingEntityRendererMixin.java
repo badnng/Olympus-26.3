@@ -17,7 +17,7 @@ public abstract class LivingEntityRendererMixin {
     @Inject(method = "getRenderType", at = @At("HEAD"), cancellable = true)
     private void olympus$useTranslucentRenderType(LivingEntityRenderState renderState, boolean bodyVisible, boolean translucent, boolean glowing, CallbackInfoReturnable<RenderType> callback) {
         if (renderState instanceof AvatarRenderState avatarRenderState && avatarRenderState.skin != null && HadesInvisibilityRenderState.isActive(avatarRenderState)) {
-            callback.setReturnValue(RenderTypes.entityTranslucentCullItemTarget(avatarRenderState.skin.body().texturePath()));
+            callback.setReturnValue(RenderTypes.entityTranslucentCull(avatarRenderState.skin.body().texturePath()));
         }
 
     }

@@ -111,9 +111,9 @@ public final class HarpyProjectileEntity extends Projectile {
             if (!harpy && hitEntity instanceof LivingEntity target) {
                 final DamageSource damageSource = damageSources().mobProjectile(this, livingOwner);
                 final boolean ignoresInvulnerabilityTicks = livingOwner instanceof HarpyEntity ownerHarpy && ownerHarpy.isElite();
-                final int previousInvulnerableTime = target.invulnerableTime;
+                final int previousDamageCooldownTime = target.damageCooldownTime;
                 if (ignoresInvulnerabilityTicks) {
-                    target.invulnerableTime = 0;
+                    target.damageCooldownTime = 0;
                 }
 
                 if (target.hurtServer(serverLevel, damageSource, 4.0F)) {
@@ -123,7 +123,7 @@ public final class HarpyProjectileEntity extends Projectile {
 
                 }
                 else if (ignoresInvulnerabilityTicks) {
-                    target.invulnerableTime = previousInvulnerableTime;
+                    target.damageCooldownTime = previousDamageCooldownTime;
                 }
 
             }

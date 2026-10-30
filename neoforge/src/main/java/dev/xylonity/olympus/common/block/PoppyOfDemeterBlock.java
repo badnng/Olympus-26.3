@@ -1,6 +1,5 @@
 package dev.xylonity.olympus.common.block;
 
-import com.mojang.serialization.MapCodec;
 import dev.xylonity.olympus.common.block.entity.PoppyOfDemeterBlockEntity;
 import dev.xylonity.olympus.config.OlympusConfig;
 import dev.xylonity.olympus.registry.OlympusParticles;
@@ -11,6 +10,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.component.SuspiciousStewEffects;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -24,15 +24,8 @@ import java.util.List;
 
 public final class PoppyOfDemeterBlock extends FlowerBlock implements EntityBlock {
 
-    public static final MapCodec<PoppyOfDemeterBlock> CODEC = simpleCodec(PoppyOfDemeterBlock::new);
-
     public PoppyOfDemeterBlock(final BlockBehaviour.Properties properties) {
         super(SuspiciousStewEffects.EMPTY, properties);
-    }
-
-    @Override
-    public MapCodec<PoppyOfDemeterBlock> codec() {
-        return CODEC;
     }
 
     @Override
@@ -79,7 +72,7 @@ public final class PoppyOfDemeterBlock extends FlowerBlock implements EntityBloc
             poppy.resetCycle();
             final BlockState targetState = level.getBlockState(target);
             final BonemealableBlock bonemealable = (BonemealableBlock) targetState.getBlock();
-            bonemealable.performBonemeal(level, random, target, targetState);
+            bonemealable.performBonemeal(level, random, target, targetState, BonemealSource.INTERACTION);
 
             if (poppy.recordAcceleration() >= OlympusConfig.INSTANCE.demeterPoppyGrowthsPerTarget.get() || !isValidBlock(level, origin, target)) {
                 target = findRandomBlock(level, origin, random, target);
@@ -110,7 +103,7 @@ public final class PoppyOfDemeterBlock extends FlowerBlock implements EntityBloc
             }
 
             final BlockState targetState = level.getBlockState(target);
-            if (targetState.getBlock() instanceof BonemealableBlock bonemealable && bonemealable.isValidBonemealTarget(level, target, targetState)) {
+            if (targetState.getBlock() instanceof BonemealableBlock bonemealable && bonemealable.isValidBonemealTarget(level, target, targetState, BonemealSource.INTERACTION)) {
                 possiblePositions.add(target.immutable());
             }
 
@@ -134,7 +127,7 @@ public final class PoppyOfDemeterBlock extends FlowerBlock implements EntityBloc
         }
 
         final BlockState state = level.getBlockState(target);
-        return state.getBlock() instanceof BonemealableBlock bonemealable && bonemealable.isValidBonemealTarget(level, target, state);
+        return state.getBlock() instanceof BonemealableBlock bonemealable && bonemealable.isValidBonemealTarget(level, target, state, BonemealSource.INTERACTION);
     }
 
     private static void spawnGrowthParticle(final ServerLevel level, final BlockPos target, final BlockState state, final BonemealableBlock bonemealable, final RandomSource random) {

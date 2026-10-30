@@ -89,14 +89,11 @@ public final class BracersOfZeusRenderer implements ICurioRenderer.HumanoidRende
         submitNodeCollector.order(1).submitModelPart(
                 model.bracer(arm),
                 poseStack,
-                RenderTypes.armorCutoutNoCull(TEXTURE),
+                (stack.hasFoil() ? RenderTypes.armorCutoutNoCullGlint(TEXTURE) : RenderTypes.armorCutoutNoCull(TEXTURE)),
                 packedLight,
                 OverlayTexture.NO_OVERLAY,
                 null,
-                false,
-                stack.hasFoil(),
                 -1,
-                null,
                 outlineColor
         );
         submitNodeCollector.order(3).submitModelPart(
@@ -106,10 +103,7 @@ public final class BracersOfZeusRenderer implements ICurioRenderer.HumanoidRende
                 LightCoordsUtil.FULL_BRIGHT,
                 OverlayTexture.NO_OVERLAY,
                 null,
-                false,
-                false,
                 -1,
-                null,
                 outlineColor
         );
 

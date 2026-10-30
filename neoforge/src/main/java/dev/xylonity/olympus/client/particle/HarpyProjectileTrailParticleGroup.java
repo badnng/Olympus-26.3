@@ -25,7 +25,7 @@ import org.jspecify.annotations.NonNull;
 /// Same logic as {@link SoulTrailParticleGroup}
 public final class HarpyProjectileTrailParticleGroup extends ParticleGroup<HarpyProjectileTrailParticle> {
 
-    public static final ParticleRenderType TYPE = new ParticleRenderType("OLYMPUS_HARPY_PROJECTILE_TRAILS");
+    public static final ParticleRenderType TYPE = new ParticleRenderType("OLYMPUS_HARPY_PROJECTILE_TRAILS", "OLYMPUS_HARPY_PROJECTILE_TRAILS");
 
     private static final RenderType RENDER_TYPE = OlympusRenderTypes.translucentEntityComposite(Olympus.of("textures/particle/harpy_projectile_trail.png"));
 

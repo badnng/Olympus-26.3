@@ -59,14 +59,11 @@ public final class HelmetOfHadesRenderer implements ICurioRenderer.HumanoidRende
         submitNodeCollector.order(1).submitModelPart(
                 model.helmet(),
                 poseStack,
-                RenderTypes.entityTranslucent(TEXTURE),
+                OlympusRenderTypes.translucentCurio(TEXTURE, stack.hasFoil()),
                 packedLight,
                 OverlayTexture.NO_OVERLAY,
                 null,
-                false,
-                stack.hasFoil(),
                 -1,
-                null,
                 renderState.outlineColor
         );
         submitNodeCollector.order(3).submitModelPart(
@@ -76,10 +73,7 @@ public final class HelmetOfHadesRenderer implements ICurioRenderer.HumanoidRende
                 LightCoordsUtil.FULL_BRIGHT,
                 OverlayTexture.NO_OVERLAY,
                 null,
-                false,
-                false,
                 -1,
-                null,
                 renderState.outlineColor
         );
 

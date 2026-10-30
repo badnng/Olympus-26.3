@@ -29,14 +29,14 @@ public final class SpearOfAresEntityRenderer extends EntityRenderer<SpearOfAresE
     public void submit(final RenderState state, final PoseStack poseStack, final SubmitNodeCollector submitNodeCollector, final CameraRenderState camera) {
         poseStack.pushPose();
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(state.yRot + 90));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(90 - state.xRot));
+        poseStack.rotate(Axis.YP.rotationDegrees(state.yRot + 90));
+        poseStack.rotate(Axis.ZP.rotationDegrees(90 - state.xRot));
 
         if (state.shake > 0) {
-            poseStack.mulPose(Axis.ZP.rotationDegrees(-Mth.sin(state.shake * 3.0F) * state.shake));
+            poseStack.rotate(Axis.ZP.rotationDegrees(-Mth.sin(state.shake * 3.0F) * state.shake));
         }
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(90));
+        poseStack.rotate(Axis.YP.rotationDegrees(90));
         poseStack.translate(0, -22 / 16F, 0);
 
         state.item.submit(poseStack, submitNodeCollector, state.lightCoords, OverlayTexture.NO_OVERLAY, state.outlineColor);

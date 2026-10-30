@@ -36,7 +36,7 @@ public class OlympusNeoForge {
 
         eventBus.addListener(OlympusNetwork::registerPayloads);
 
-        modContainer.registerConfig(ModConfig.Type.SERVER, OlympusConfig.SPEC);
+        modContainer.registerConfig(ModConfig.Type.SYNCED, OlympusConfig.SPEC, "olympus-server.toml");
 
         Olympus.init();
     }

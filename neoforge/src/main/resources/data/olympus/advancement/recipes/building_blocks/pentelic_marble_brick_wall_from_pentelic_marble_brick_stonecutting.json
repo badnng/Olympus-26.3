@@ -13,7 +13,9 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "olympus:pentelic_marble_brick_wall_from_pentelic_marble_brick_stonecutting"
+        "recipes": [
+          "olympus:pentelic_marble_brick_wall_from_pentelic_marble_brick_stonecutting"
+        ]
       },
       "trigger": "minecraft:recipe_unlocked"
     }

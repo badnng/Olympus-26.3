@@ -13,7 +13,9 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "olympus:air_cloud_block"
+        "recipes": [
+          "olympus:air_cloud_block"
+        ]
       },
       "trigger": "minecraft:recipe_unlocked"
     }

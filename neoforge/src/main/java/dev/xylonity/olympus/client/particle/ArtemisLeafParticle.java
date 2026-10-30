@@ -105,7 +105,7 @@ public final class ArtemisLeafParticle extends FallingLeavesParticle {
     public void move(final double x, final double y, final double z) {
         Vec3 movement = new Vec3(x, y, z);
         if (hasPhysics && movement.lengthSqr() > 0) {
-            movement = Entity.collideBoundingBox(null, movement, getBoundingBox(), level, List.of());
+            movement = Entity.collideBoundingBox((Entity) null, movement, getBoundingBox(), level, List.of());
         }
 
         if (movement.lengthSqr() > 0) {

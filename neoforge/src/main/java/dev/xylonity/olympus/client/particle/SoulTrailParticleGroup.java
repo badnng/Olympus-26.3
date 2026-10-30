@@ -26,7 +26,7 @@ import org.joml.Matrix4fc;
 /// https://github.com/Xylonity/Knight-Lib/blob/1.20.1/common/src/main/java/dev/xylonity/knightlib/client/particle/AbstractRibbonTrailParticle.java
 public final class SoulTrailParticleGroup extends ParticleGroup<SoulTrailParticle> {
 
-    public static final ParticleRenderType TYPE = new ParticleRenderType("OLYMPUS_SOUL_TRAILS");
+    public static final ParticleRenderType TYPE = new ParticleRenderType("OLYMPUS_SOUL_TRAILS", "OLYMPUS_SOUL_TRAILS");
 
     private static final RenderType RENDERTYPE = OlympusRenderTypes.translucentEntityComposite(Olympus.of("textures/particle/soul_trail.png"));
 

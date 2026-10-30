@@ -1,0 +1,69 @@
+name: Build and verify Olympus
+description: Build the NeoForge release JAR and exercise the real server and client in disposable worlds.
+
+inputs:
+  cache-read-only:
+    description: Whether this run may only read the Gradle cache.
+    required: false
+    default: 'true'
+
+runs:
+  using: composite
+  steps:
+    - name: Keep the Gradle cache outside the checkout
+      shell: bash
+      run: printf 'GRADLE_USER_HOME=%s/olympus-gradle-home\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
+
+    - name: Set up Java 25
+      uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+      with:
+        distribution: temurin
+        java-version: '25'
+
+    - name: Set up the official Gradle cache and validate the wrapper
+      uses: gradle/actions/setup-gradle@8da46b539cd8fe6ab27ca75128919a18d757604c # v6.4.1
+      with:
+        cache-read-only: ${{ inputs.cache-read-only }}
+        cache-provider: basic
+
+    - name: Run offline distribution tests
+      shell: bash
+      run: python3 -B -m unittest discover -s .github/scripts -p 'test_*.py'
+
+    - name: Install virtual display and software graphics
+      shell: bash
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install --no-install-recommends -y \
+          xvfb xauth libgl1-mesa-dri libglx-mesa0 libegl1 libopengl0 \
+          libvulkan1 mesa-vulkan-drivers libasound2t64 libxrandr2 libxinerama1 libxcursor1 libxi6
+
+    - name: Build and run the server and real client regression suites
+      shell: bash
+      env:
+        LIBGL_ALWAYS_SOFTWARE: '1'
+        GALLIUM_DRIVER: llvmpipe
+        SDL_AUDIODRIVER: dummy
+        ALSOFT_DRIVERS: 'null'
+        XDG_SESSION_TYPE: x11
+      run: |
+        xvfb-run --auto-servernum --server-args='-screen 0 1280x720x24' \
+          bash ./gradlew --no-daemon --console=plain build :neoforge:verifyMigration
+
+    - name: Verify the server and client reports
+      shell: bash
+      run: |
+        python3 - <<'PY'
+        import json
+        from pathlib import Path
+        import xml.etree.ElementTree as ET
+
+        reports = Path('neoforge/build/reports/gametest')
+        server = ET.parse(reports / 'results.xml').getroot()
+        if len(server.findall('.//testcase')) < 51 or server.findall('.//failure') or server.findall('.//error'):
+            raise SystemExit('Server behavior regression report is missing cases or contains failures')
+        client = json.loads((reports / 'client-results.json').read_text(encoding='utf-8'))
+        if client.get('passed') is not True or client.get('worldTicks', 0) < 440 or client.get('renderedFrames', 0) < 40 or len(client.get('checks', [])) < 108:
+            raise SystemExit('Real client regression report is incomplete or failed')
+        print(f"Server cases: {len(server.findall('.//testcase'))}; client checks: {len(client.get('checks', []))}")
+        PY

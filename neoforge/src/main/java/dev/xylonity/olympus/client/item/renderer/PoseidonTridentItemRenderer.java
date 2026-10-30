@@ -27,16 +27,16 @@ public final class PoseidonTridentItemRenderer extends GeoItemRenderer<PoseidonT
         if (player != null) {
             if (player.isUsingItem() && GeoItem.getId(player.getUseItem()) == stackId) {
                 if (context == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND || context == ItemDisplayContext.THIRD_PERSON_LEFT_HAND) {
-                    renderPassInfo.poseStack().mulPose(Axis.XP.rotationDegrees(180));
+                    renderPassInfo.poseStack().rotate(Axis.XP.rotationDegrees(180));
                     renderPassInfo.poseStack().translate(0, -1.25, -1);
                 }
                 else if (context == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND) {
                     renderPassInfo.poseStack().translate(0.5, -1, 0.55);
-                    renderPassInfo.poseStack().mulPose(Axis.XP.rotationDegrees(-35));
+                    renderPassInfo.poseStack().rotate(Axis.XP.rotationDegrees(-35));
                 }
                 else if (context == ItemDisplayContext.FIRST_PERSON_LEFT_HAND) {
                     renderPassInfo.poseStack().translate(-0.5, -1, 0.55);
-                    renderPassInfo.poseStack().mulPose(Axis.XP.rotationDegrees(-35));
+                    renderPassInfo.poseStack().rotate(Axis.XP.rotationDegrees(-35));
                 }
 
             }

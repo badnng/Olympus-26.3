@@ -1,0 +1,16 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "GPL-3.0-only"
+
+[[mods]]
+modId = "olympus_tests"
+version = "1.0.0"
+displayName = "Olympus regression tests"
+authors = "Olympus contributors"
+
+[[dependencies.olympus_tests]]
+modId = "olympus"
+type = "required"
+versionRange = "[1.0.0,)"
+ordering = "AFTER"
+side = "BOTH"

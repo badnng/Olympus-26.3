@@ -48,8 +48,8 @@ public final class HarpyProjectileEntityRenderer extends EntityRenderer<HarpyPro
         poseStack.pushPose();
 
         poseStack.translate(0, 0.15F, 0);
-        poseStack.mulPose(Axis.YP.rotationDegrees(state.ageInTicks + 8));
-        poseStack.mulPose(Axis.XP.rotationDegrees(state.ageInTicks + 8));
+        poseStack.rotate(Axis.YP.rotationDegrees(state.ageInTicks + 8));
+        poseStack.rotate(Axis.XP.rotationDegrees(state.ageInTicks + 8));
         poseStack.scale(1.5F, 1.5F, 1.5F);
 
         submitNodeCollector.submitModelPart(model.projectile(), poseStack, RENDER_TYPE_BASE, state.lightCoords, OverlayTexture.NO_OVERLAY, null);

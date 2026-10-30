@@ -1,6 +1,5 @@
 package dev.xylonity.olympus.common.block;
 
-import com.mojang.serialization.MapCodec;
 import dev.xylonity.olympus.Olympus;
 import dev.xylonity.olympus.registry.OlympusItems;
 import dev.xylonity.olympus.registry.OlympusParticles;
@@ -33,18 +32,11 @@ import org.jspecify.annotations.NonNull;
 
 public final class LockedChestBlock extends HorizontalDirectionalBlock {
 
-    public static final MapCodec<LockedChestBlock> CODEC = simpleCodec(LockedChestBlock::new);
-
     private static final ResourceKey<LootTable> LOOT_TABLE = ResourceKey.create(Registries.LOOT_TABLE, Olympus.of("chests/parthenon_chest"));
 
     public LockedChestBlock(final BlockBehaviour.Properties properties) {
         super(properties);
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
-    }
-
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
     }
 
     @Override

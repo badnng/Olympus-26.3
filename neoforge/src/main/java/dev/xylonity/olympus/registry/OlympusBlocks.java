@@ -30,7 +30,7 @@ public final class OlympusBlocks {
                 .instabreak()
                 .sound(SoundType.GRASS)
                 .offsetType(BlockBehaviour.OffsetType.XZ)
-                .pushReaction(PushReaction.DESTROY)
+                .pushReaction(PushReaction.POPPED)
     );
 
     public static final DeferredBlock<Block> PENTELIC_MARBLE = BLOCKS.registerBlock("pentelic_marble", Block::new, () -> BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE));
@@ -61,7 +61,7 @@ public final class OlympusBlocks {
                     .instabreak()
                     .sound(SoundType.AZALEA_LEAVES)
                     .ignitedByLava()
-                    .pushReaction(PushReaction.DESTROY)
+                    .pushReaction(PushReaction.POPPED)
     );
 
     public static final DeferredBlock<AirCloudBlock> AIR_CLOUD_BLOCK = BLOCKS.registerBlock("air_cloud_block", AirCloudBlock::new, () -> BlockBehaviour.Properties.ofFullCopy(Blocks.POWDER_SNOW));
@@ -73,7 +73,7 @@ public final class OlympusBlocks {
                     .sound(SoundType.TRIAL_SPAWNER)
                     .lightLevel(state -> state.getValue(ParthenonSpawnerBlock.ACTIVE) || state.getValue(ParthenonSpawnerBlock.REWARD) ? 8 : 0)
                     .noOcclusion()
-                    .isViewBlocking((state, level, pos) -> false));
+                    .isViewBlocking((state, level, pos, nearPlaneBox) -> false));
 
     public static final DeferredBlock<LockedChestBlock> LOCKED_CHEST = BLOCKS.registerBlock("locked_chest", LockedChestBlock::new,
             properties -> properties
